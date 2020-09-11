@@ -4,7 +4,7 @@ class Rating {
         this.comment = ratingJSON.comment;
         this.star_rating = ratingJSON.star_rating;
         this.dress_id = ratingJSON.dress_id;
-        this.user_name = ratingJSON.user_name
+        this.username = ratingJSON.username
         
     }
 

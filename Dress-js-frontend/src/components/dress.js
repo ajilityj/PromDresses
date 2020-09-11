@@ -11,17 +11,17 @@ class Dress {
       
       this.price = dressJSON.price;
       // this.dressBindingsAndEventListeners();
-      
+      this.ratings = dressJSON.ratings ? dressJSON.ratings : []
     //   this.comment = ratingJSON.comment
     }
-    renderRating(ratings) {
+    renderDressRatings(ratings) {
       console.log("ratings")
       let ratingsString = ''
       
       if (!ratings) return ratingsString;
 
       ratings.forEach(rating => {
-          ratingsString += `<p><i>${rating.star_}</i></p>`
+          ratingsString += `<hr><p>UserName: ${rating.username}<br>Rating: ${rating.star_rating}<br>Comment: ${rating.comment}</p>`
       });
      
       return ratingsString;
@@ -56,6 +56,7 @@ class Dress {
           <input type="submit" value="Save Rating" />
 
         </form>
+        ${this.renderDressRatings(this.ratings)}
       `
     }
   }

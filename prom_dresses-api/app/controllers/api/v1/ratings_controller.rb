@@ -32,7 +32,7 @@ class Api::V1::RatingsController < ApplicationController
     @rating = Rating.new(rating_params)
 
     if @rating.save
-      render json: @rating, status: :created, location: @rating
+      render json: @rating, status: :created
     else
       render json: @rating.errors, status: :unprocessable_entity
     end
@@ -63,7 +63,7 @@ class Api::V1::RatingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def rating_params
-      params.require(:rating).permit(:comment, :star_rating, :dress_id)
+      params.require(:rating).permit(:comment, :star_rating, :username, :dress_id)
     end
     # def set_dress
     #   binding.pry 

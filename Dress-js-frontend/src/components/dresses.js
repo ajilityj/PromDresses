@@ -105,6 +105,7 @@ class Dresses {
       .then((dresses) => {
         dresses.forEach((dress) => this.dresses.push(new Dress(dress)));
         console.log(this.dresses);
+        this.fetchAndLoadRatings()
       })
       .then(() => {
         this.render();
@@ -119,7 +120,7 @@ class Dresses {
 
   showDressModal = (e) => {
     console.log("im in showDressModal");
-    this.fetchAndLoadRatings();
+    // this.fetchAndLoadRatings();
 
     console.log(e);
     const dress_id = parseInt(e.target.parentElement.id);
@@ -139,14 +140,19 @@ class Dresses {
   createNewRating(e) {
     e.preventDefault();
     console.log("in createNewRating");
-    const ratings = [];
-    console.log(ratings);
+
+    const userName = document.getElementById("userName");
+    const userRating = document.getElementById("rating");
+    const userComment = document.getElementById("comment");
+    const dress_id = parseInt(e.target.parentElement.id);
+
     const rating = {
-      user_name: this.newUserName.value,
-      star_rating: this.newRating.value,
-      comment: this.newComment.value,
+      dress_id: dress_id,
+      username: userName.value ? userName.value : "anonymous",
+      star_rating: userRating.options[userRating.selectedIndex].value,
+      comment: userComment.value ? userComment.value : ""
     };
-    console.log(user_name);
+
     fetch(this.ratingUrl, {
       method: "POST",
       headers: {
@@ -159,10 +165,18 @@ class Dresses {
       .then((rating) => {
         console.log("in create rating");
         console.log(rating);
-        this.ratings.push(new Rating(rating));
-        this.newUserName.value = " ";
-        this.newRating.value = " ";
-        this.newComment.value = " ";
+
+        const newRating = new Rating(rating);
+
+        this.dresses.forEach(dress => {
+          if (dress.id === newRating.dress_id) {
+            dress.ratings.push(newRating);
+          }
+        })
+        
+        userName.value = ' ';
+        userRating.value = ' ';
+        userComment.value = ' ';
 
         this.render();
       });
@@ -170,17 +184,22 @@ class Dresses {
     console.log(rating);
   }
   fetchAndLoadRatings() {
-    const allRatings = [];
-    
+    // const allRatings = [];
+
     fetch(this.ratingUrl).then((res) => res.json())
       .then((allRatings) => {
         console.log(allRatings)
-        dresses.forEach((rating) => this.allRatings.push(new Rating(rating)));
+        // dresses.forEach((rating) => this.allRatings.push(new Rating(rating)));
         console.log('Im in Fetch and Load Ratings')
-        console.log(this.allRatings);
-      })
-      .then(() => {
-        this.render();
+        // console.log(this.allRatings);
+
+        this.dresses.forEach(dress => {
+          allRatings.forEach(rating => {
+            if (dress.id === rating.dress_id) {
+              dress.ratings.push(rating);
+            }
+          })
+        });
       });
   }
 }
