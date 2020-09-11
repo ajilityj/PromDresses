@@ -27,9 +27,58 @@ class Dress {
       return ratingsString;
      
   }
-    renderLi() {
-      return `<li>${this.name}, ${this.silhouette}, ${this.neckline},${this.length}, ${this.color}, ${this.img_url}, ${this.price}, <br> <br> ratings: ${this.renderRatings(this.ratings)}</li>`;
+  renderDressDetails(isViewDressModal, dress) {
+    if (!isViewDressModal) {
+      return `<button> Dress Details and Comments </button>`;
+    } else {
+        return `
+        <p> silhouette: ${dress.silhouette}
+        <br> neckline: ${dress.neckline} 
+        <br> length: ${dress.length}
+        <br> price: $${dress.price}</p>
+        <br>
+        <h2> Rate This Dress </h2>
+        <form id="new-rating-form">
+          <label for="userName "> User Name  </label>
+          <input type="text" name="userName" id="userName" />
+          <label for="rating ">Rating </label>
+                    
+          <select name="rating " id="rating" >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
+          <label for="comment"> Comment </label>
+          <input type="text" name="comment" id="comment" />
+          <input type="submit" value="Save Rating" />
+
+        </form>
+      `
     }
+  }
+
+  renderLi(isViewDressModal) {
+    return `
+      <li id="${this.id}" class="dress_card">
+        <img class="dress_img" src="${this.img_url}">
+        <div class = "dress_info"> 
+          <h3>${this.name}<h3>
+          <td>
+            <div class="stars-outer">
+              <div class="stars-inner"></div>
+            </div>
+            <span class="number-rating"></span>
+          </td>
+          <br>
+          <br>
+        </div>
+        ${this.renderDressDetails(isViewDressModal, this)}
+      </li>
+    `;
+  }
     // dressBindingsAndEventListeners() {
     //   this.viewDressButton = document.querySelector("main button");
     //   this.viewDress.addEventListener("click", this.viewDressModal);

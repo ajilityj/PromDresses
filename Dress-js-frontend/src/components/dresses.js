@@ -113,31 +113,7 @@ class Dresses {
 
   render() {
     this.dressContainer.innerHTML = this.dresses
-      .map(
-        (dress) =>
-          ` <div class="gallery">
-            <ul class="dress_card" id="${dress.id}">
-            <div class = "dress_img"  >
-            <img src ="${dress.img_url}" >
-            </div>
-            <div class = "dress_info"> 
-            <h3>${dress.name}<h3>
-            <td>
-              <div class="stars-outer">
-                <div class="stars-inner"></div>
-              </div>
-              <span class="number-rating"></span>
-            </td>
-            <br>
-            <br>
-            </div>
-             <button> Dress Details and Comments </button>
-             
-            
-            </ul>
-            </div>
-            `
-      )
+      .map(dress => dress.renderLi(false))
       .join("");
   }
 
@@ -152,49 +128,7 @@ class Dresses {
     console.log(dress);
     dress = dress[0];
 
-    this.viewDressModal.innerHTML = `<div class = "dress_img"  >
-            <img src ="${dress.img_url}" >
-            </div>
-            <div class = "dress_info"> 
-            <h2>${dress.name}<h2>
-            <td>
-              <div class="stars-outer">
-                <div class="stars-inner"></div>
-              </div>
-              <span class="number-rating"></span>
-            </td>
-            <p> silhouette: ${dress.silhouette}
-            <br> neckline: ${dress.neckline} 
-            <br> length: ${dress.length}
-            <br> price: $${dress.price}</p>
-            <br>
-            <h2> Rate This Dress </h2>
-
-            <form id="new-rating-form">
-              <label for="userName "> User Name  </label>
-              <input type="text" name="userName" id="userName " />
-              <label for="rating ">Rating </label>
-                       
-              <select name="rating " id="rating " >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-
-              <label for="comment"> Comment </label>
-              <input type="text" name="comment" id="comment" />
-              <input type="submit" value="Save Rating" />
-
-            </form>
-            <ul>
-            ${dress.rating}
-            </ul>
-            </div>
-
-            <br>
-            `;
+    this.viewDressModal.innerHTML = dress.renderLi(true);
     this.ratingForm = document.getElementById("new-rating-form");
     this.ratingForm.addEventListener("submit", this.createNewRating.bind(this));
 
